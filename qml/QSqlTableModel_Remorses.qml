@@ -80,7 +80,7 @@ ApplicationWindow
                         font {
                             pixelSize: Theme.fontSizeMedium
                         }
-                        text: model.item
+                        text: model.item + " (" + model.item_id + ")"
                         width: parent.width
                     }
 

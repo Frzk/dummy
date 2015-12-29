@@ -37,7 +37,7 @@ bool MModel::deleteItem(int itemId)
     bool r = false;
 
     // First we have to find the index of the given item:
-    QModelIndexList l = this->match(
+    QModelIndexList list = this->match(
         this->index(0, 0),
         MModel::IdRole,
         itemId,
@@ -45,15 +45,20 @@ bool MModel::deleteItem(int itemId)
         Qt::MatchExactly);
 
     // And then we can delete it:
-    if(l.length() > 0)
+    //   The list length should be exactly 1.
+    if(list.length() > 0)
     {
-        QModelIndex idx = l[0];
+        // For some reason, if the list length is > 1,
+        // we take the first result :
+        QModelIndex idx = list[0];
 
         r = this->removeRows(idx.row(), 1);
     }
     else
     {
-        // ...
+        // The index could not be found.
+        // This isn't supposed to happen.
+        // A real app should throw an Exception, print an error or whatever.
     }
 
     qDebug() << "";
@@ -88,9 +93,9 @@ MModel::Strategies MModel::strategy() const
     return this->m_strategy;
 }
 
-void MModel::setStrategy(const Strategies &s)
+void MModel::setStrategy(const Strategies &newStrategy)
 {
-    this->m_strategy = s;
+    this->m_strategy = newStrategy;
     Q_EMIT strategyChanged();
 }
 

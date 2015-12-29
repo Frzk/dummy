@@ -26,7 +26,7 @@ class MModel : public QSqlTableModel
         QVariant data(const QModelIndex &index, int role) const;
 
         Strategies  strategy() const;
-        void        setStrategy(const Strategies &s);
+        void        setStrategy(const Strategies &newStrategy);
 
         Q_INVOKABLE bool deleteItem(const int itemId);
 
