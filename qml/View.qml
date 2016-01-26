@@ -39,6 +39,16 @@ ApplicationWindow
         Page {
             id: mainPage
 
+            /*
+            function deleteItem(itemId)
+            {
+                remorseAction(qsTr("Deleting item"), function() {
+                    var deleted = itemsModel.deleteItem(itemId)
+                    console.log("Deleted:", deleted)
+                })
+            }
+            */
+
             SilicaListView {
                 anchors.fill: parent
 
@@ -48,7 +58,7 @@ ApplicationWindow
                     function deleteItem()
                     {
                         remorseAction(qsTr("Deleting item"), function() {
-                            var deleted = itemsModel.deleteItem(model.item_id)
+                            var deleted = itemsModel.deleteItem(item_id)
                             console.log("Deleted:", deleted);
                         })
                     }
@@ -80,7 +90,7 @@ ApplicationWindow
                         font {
                             pixelSize: Theme.fontSizeMedium
                         }
-                        text: model.item + " (" + model.item_id + ")"
+                        text: item + " (" + item_id + ") " + index
                         width: parent.width
                     }
 
@@ -88,35 +98,27 @@ ApplicationWindow
                     ListView.onRemove: RemoveAnimation { target: listItem }
                 }
                 header: PageHeader {
-                    title: itemsModel.strategy === MModel.OnFieldChange ?
-                               "With \"OnFieldChange\"" :
-                               "With \"OnManualSubmit\""
+                    title: qsTr("%1 items").arg(itemsModel.count)
                 }
                 model: itemsModel
 
-                PullDownMenu {
-                    MenuItem {
-                        text: "Switch to OnManualSubmit"
-                        visible: itemsModel.strategy === MModel.OnFieldChange
-                        onClicked: {
-                            itemsModel.strategy = MModel.OnManualSubmit
-                        }
+                footer: Button {
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
                     }
+                    text: "Submit"
+                    preferredWidth: Theme.buttonWidthLarge
 
-                    MenuItem {
-                        text: "Switch to OnFieldChange"
-                        visible: itemsModel.strategy === MModel.OnManualSubmit
-                        onClicked: {
-                            itemsModel.strategy = MModel.OnFieldChange
-                        }
+                    onClicked: {
+                        itemsModel.submitAll()
                     }
                 }
             }
 
+
+
             MModel {
                 id: itemsModel
-
-                strategy: MModel.OnFieldChange
             }
         }
     }

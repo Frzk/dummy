@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         qFatal("Can't open database :(");
 
     QSqlQuery query;
-    query.exec("CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT);");
+    query.exec("CREATE TABLE items (item_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT);");
 
     for(int i=1 ; i<11 ; i++)
     {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     // Make the model available on the QML side :
     qmlRegisterType<MModel>("com.example", 1, 0, "MModel");
 
-    view->setSource(SailfishApp::pathTo("qml/QSqlTableModel_Remorses.qml"));
+    view->setSource(SailfishApp::pathTo("qml/View.qml"));
     view->show();
 
     return app->exec();

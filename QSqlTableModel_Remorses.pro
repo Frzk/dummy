@@ -16,10 +16,10 @@ CONFIG += sailfishapp
 
 QT += sql
 
-SOURCES += src/QSqlTableModel_Remorses.cpp \
+SOURCES += src/main.cpp \
     src/MModel.cpp
 
-OTHER_FILES += qml/QSqlTableModel_Remorses.qml \
+OTHER_FILES += qml/View.qml \
     qml/cover/CoverPage.qml \
     rpm/QSqlTableModel_Remorses.changes.in \
     rpm/QSqlTableModel_Remorses.spec \

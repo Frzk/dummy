@@ -7,37 +7,23 @@
 class MModel : public QSqlTableModel
 {
     Q_OBJECT
-    Q_ENUMS(Strategies)
-    Q_PROPERTY(Strategies strategy READ strategy WRITE setStrategy NOTIFY strategyChanged)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
     public:
         enum Roles {
-            IdRole = Qt::UserRole + 1,
-            ItemRole
-        };
-
-        enum Strategies {
-            OnFieldChange,
-            OnManualSubmit
+            ItemIdRole = Qt::UserRole + 1,
+            ItemNameRole
         };
 
         explicit MModel(QObject *parent = 0);
         QHash<int, QByteArray> roleNames() const;
         QVariant data(const QModelIndex &index, int role) const;
+        int count() const;
 
-        Strategies  strategy() const;
-        void        setStrategy(const Strategies &newStrategy);
-
-        Q_INVOKABLE bool deleteItem(const int itemId);
+        Q_INVOKABLE bool deleteItem(int itemId);
 
     signals:
-        void    strategyChanged();
-
-    private:
-        Strategies m_strategy;
-
-    private slots:
-        void strategyChangedSlot();
+        void    countChanged();
 };
 
 #endif // MMODEL_H
