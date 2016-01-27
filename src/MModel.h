@@ -24,6 +24,9 @@ class MModel : public QSqlTableModel
 
     signals:
         void    countChanged();
+
+    public slots:
+        void    printCount() const;
 };
 
 #endif // MMODEL_H

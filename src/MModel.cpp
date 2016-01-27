@@ -2,8 +2,11 @@
 
 MModel::MModel(QObject *parent) : QSqlTableModel(parent)
 {
+    QObject::connect(this, &MModel::countChanged, this, &MModel::printCount);
+
     this->setTable("items");
     this->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    //this->setEditStrategy(QSqlTableModel::OnRowChange);
     this->setSort(0, Qt::AscendingOrder);
     this->select();
 }
@@ -72,6 +75,9 @@ bool MModel::deleteItem(int itemId)
         this->beginRemoveRows(QModelIndex(), row, row);
         r = this->removeRows(row, 1);
         this->endRemoveRows();
+
+        if(r)
+            Q_EMIT this->countChanged();
     }
     else
     {
@@ -86,4 +92,9 @@ bool MModel::deleteItem(int itemId)
 int MModel::count() const
 {
     return this->rowCount();
+}
+
+void MModel::printCount() const
+{
+    qDebug() << this->rowCount();
 }
